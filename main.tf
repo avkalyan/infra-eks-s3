@@ -56,6 +56,25 @@ module "eks" {
 
   cluster_endpoint_public_access = true
 
+  # Enable cluster creator admin permissions
+  enable_cluster_creator_admin_permissions = true
+
+  # EKS Access Entries for additional IAM principals (EKS API method - recommended)
+  access_entries = var.additional_admin_role_arn != "" ? {
+    # Add additional IAM roles that need cluster access
+    poweruser = {
+      principal_arn = var.additional_admin_role_arn
+      policy_associations = {
+        admin = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    }
+  } : {}
+
   # EKS Managed Node Group
   eks_managed_node_groups = {
     main = {

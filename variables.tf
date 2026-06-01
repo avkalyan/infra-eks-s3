@@ -55,3 +55,9 @@ variable "tags" {
     Project     = "infra-eks-s3"
   }
 }
+
+variable "additional_admin_role_arn" {
+  description = "ARN of additional IAM role to grant admin access to the EKS cluster (e.g., your PowerUser role). Leave empty to skip."
+  type        = string
+  default     = ""
+}

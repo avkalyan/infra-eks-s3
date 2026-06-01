@@ -1,0 +1,14 @@
+# Example terraform.tfvars file
+# Copy this to terraform.tfvars and update with your values
+
+aws_region = "us-east-1"
+
+cluster_name = "kv-infra-eks-cluster-IaCMdemo"
+
+s3_bucket_name = "kv-infra-s3-bucket-IaCMdemo"
+
+# Add your PowerUser role ARN here to grant admin access to the EKS cluster
+# Format: arn:aws:iam::ACCOUNT_ID:role/ROLE_NAME
+additional_admin_role_arn = "arn:aws:iam::759984737373:role/AWSReservedSSO_AWSPowerUserAccess_c9634c1cd159b7c2"
+
+environment = "dev"

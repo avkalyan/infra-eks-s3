@@ -31,23 +31,48 @@ terraform init
 terraform plan
 ```
 
-### 3. Apply Configuration
+### 3. Configure Variables (Optional but Recommended)
 
-**Important**: Before applying, update the `s3_bucket_name` variable in `variables.tf` or pass it via command line, as S3 bucket names must be globally unique.
+Create a `terraform.tfvars` file to customize your deployment:
 
 ```bash
-terraform apply -var="s3_bucket_name=your-unique-bucket-name"
+cp terraform.tfvars.example terraform.tfvars
 ```
 
-### 4. Configure kubectl
+Edit `terraform.tfvars` and update the values, especially:
+- `additional_admin_role_arn`: Add your IAM role ARN to grant cluster admin access
+- `s3_bucket_name`: Must be globally unique
+
+**To find your IAM role ARN:**
+
+```bash
+aws sts get-caller-identity
+# Use the role ARN from the output
+```
+
+### 4. Apply Configuration
+
+```bash
+terraform apply
+```
+
+Or specify variables directly:
+
+```bash
+terraform apply \
+  -var="s3_bucket_name=your-unique-bucket-name" \
+  -var="additional_admin_role_arn=arn:aws:iam::123456789012:role/YourRole"
+```
+
+### 5. Configure kubectl
 
 After the cluster is created, configure kubectl to access it:
 
 ```bash
-aws eks update-kubeconfig --region us-west-2 --name infra-eks-cluster
+aws eks update-kubeconfig --region us-east-1 --name kv-infra-eks-cluster-IaCMdemo
 ```
 
-### 5. Verify Cluster
+### 6. Verify Cluster
 
 ```bash
 kubectl get nodes
@@ -97,6 +122,26 @@ To destroy all resources:
 terraform destroy
 ```
 
+## IAM Access Management
+
+This configuration uses **EKS Access Entries** (the modern approach) to manage cluster access. 
+
+### Granting Additional Users/Roles Access
+
+To grant additional IAM roles or users admin access to the cluster:
+
+1. Set the `additional_admin_role_arn` variable to the IAM role ARN
+2. Apply the configuration
+
+The role will automatically be granted cluster admin permissions via the `AmazonEKSClusterAdminPolicy`.
+
+### Finding Your Role ARN
+
+```bash
+aws sts get-caller-identity
+# Copy the role ARN from "Arn" field
+```
+
 ## Security Features
 
 - Private subnets for worker nodes
@@ -104,6 +149,7 @@ terraform destroy
 - S3 bucket encryption enabled
 - S3 versioning enabled
 - VPC with proper subnet tagging for EKS
+- EKS Access Entries for fine-grained IAM access control
 
 ## Notes
 
