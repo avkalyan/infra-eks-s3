@@ -78,9 +78,9 @@ module "eks" {
   # EKS Managed Node Group
   eks_managed_node_groups = {
     main = {
-      min_size     = 3
-      max_size     = 3
-      desired_size = 3
+      min_size     = var.node_count_min
+      max_size     = var.node_count_max
+      desired_size = var.node_count_desired
 
       instance_types = ["t3.micro"]
       capacity_type  = "ON_DEMAND"

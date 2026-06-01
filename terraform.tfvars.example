@@ -12,3 +12,10 @@ s3_bucket_name = "kv-infra-s3-bucket-IaCMdemo"
 additional_admin_role_arn = "arn:aws:iam::759984737373:role/AWSReservedSSO_AWSPowerUserAccess_c9634c1cd159b7c2"
 
 environment = "dev"
+
+# Node count configuration
+# For faster testing/demos, use 1 node (saves ~5 min on create/destroy)
+# For production, use 3+ nodes for high availability
+node_count_min     = 3
+node_count_max     = 3
+node_count_desired = 3

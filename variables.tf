@@ -61,3 +61,21 @@ variable "additional_admin_role_arn" {
   type        = string
   default     = ""
 }
+
+variable "node_count_min" {
+  description = "Minimum number of nodes in the EKS node group"
+  type        = number
+  default     = 3
+}
+
+variable "node_count_max" {
+  description = "Maximum number of nodes in the EKS node group"
+  type        = number
+  default     = 3
+}
+
+variable "node_count_desired" {
+  description = "Desired number of nodes in the EKS node group"
+  type        = number
+  default     = 3
+}
