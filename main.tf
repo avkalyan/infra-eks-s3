@@ -103,7 +103,8 @@ module "eks" {
 
 # S3 Bucket
 resource "aws_s3_bucket" "main" {
-  bucket = var.s3_bucket_name
+  bucket        = var.s3_bucket_name
+  force_destroy = true
 
   tags = merge(
     var.tags,
