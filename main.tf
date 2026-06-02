@@ -82,7 +82,7 @@ module "eks" {
       max_size     = var.node_count_max
       desired_size = var.node_count_desired
 
-      instance_types = ["t3.micro"]
+      instance_types = ["t3.micro", "t3a.micro", "t2.micro"]
       capacity_type  = "ON_DEMAND"
 
       labels = {
